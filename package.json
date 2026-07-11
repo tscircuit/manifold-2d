@@ -31,12 +31,15 @@
   "scripts": {
     "build": "npm test",
     "test": "node --test && npm run test:types && npm run verify:vendor",
+    "test:browser": "playwright test playwright/browser.spec.js --workers=1",
     "test:types": "tsc --project tsconfig.json",
     "verify:vendor": "node scripts/verify-vendor.mjs",
     "generate:embedded-wasm": "node scripts/generate-embedded-wasm.mjs",
     "vendor:manifold": "node scripts/vendor-manifold.mjs"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "esbuild": "^0.28.1",
     "typescript": "^5.9.3"
   },
   "repository": {
