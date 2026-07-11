@@ -27,3 +27,31 @@ test("has no install dependencies", async () => {
   assert.deepEqual(packageJson.optionalDependencies ?? {}, {})
   assert.deepEqual(packageJson.peerDependencies ?? {}, {})
 })
+
+test("initializes from embedded WASM in a browser-like runtime", async () => {
+  const originalProcess = globalThis.process
+  const originalWindow = globalThis.window
+  const OriginalURL = globalThis.URL
+
+  try {
+    globalThis.process = undefined
+    globalThis.window = {}
+    globalThis.URL = class URLWithoutModuleBase {
+      constructor() {
+        throw new TypeError("Failed to construct 'URL': Invalid URL")
+      }
+    }
+
+    const browserRuntime = await import(`../index.js?browser=${Date.now()}`)
+    const manifold = await browserRuntime.getManifoldModule()
+    assert.equal(manifold.CrossSection.square([4, 5]).area(), 20)
+  } finally {
+    globalThis.process = originalProcess
+    globalThis.URL = OriginalURL
+    if (originalWindow === undefined) {
+      delete globalThis.window
+    } else {
+      globalThis.window = originalWindow
+    }
+  }
+})

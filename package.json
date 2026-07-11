@@ -33,6 +33,7 @@
     "test": "node --test && npm run test:types && npm run verify:vendor",
     "test:types": "tsc --project tsconfig.json",
     "verify:vendor": "node scripts/verify-vendor.mjs",
+    "generate:embedded-wasm": "node scripts/generate-embedded-wasm.mjs",
     "vendor:manifold": "node scripts/vendor-manifold.mjs"
   },
   "devDependencies": {

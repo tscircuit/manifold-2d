@@ -36,9 +36,12 @@ const inset = outline.offset(-0.2, "Miter")
 
 The first call to `getManifoldModule()` initializes a shared WASM instance.
 After initialization, `getManifoldModuleSync()` returns that instance.
+Node loads the vendored `.wasm` file directly. Browser and worker bundles use
+the package's embedded WASM fallback, so the default API does not require an
+asset-loader configuration.
 
-For bundlers that relocate WASM assets, point the loader at the emitted asset
-before initialization:
+To serve the WASM as a separate asset instead, point the loader at the emitted
+asset before initialization:
 
 ```ts
 import { setWasmUrl } from "@tscircuit/manifold-2d"
