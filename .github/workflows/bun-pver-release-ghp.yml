@@ -41,7 +41,7 @@ jobs:
       - run: bun run build
 
       - name: Publish package
-        run: npm publish
+        run: pver release --no-push-main
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
