@@ -14,7 +14,7 @@ Releases are published to GitHub Packages and served through the tscircuit JS
 CDN:
 
 ```sh
-bun add https://jscdn.tscircuit.com/@tscircuit/manifold-2d/0.0.1
+bun add https://jscdn.tscircuit.com/@tscircuit/manifold-2d/0.0.2.tgz
 ```
 
 ## Usage
