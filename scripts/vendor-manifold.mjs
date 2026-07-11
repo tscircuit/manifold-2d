@@ -16,13 +16,14 @@ const manifestPath = join(root, "vendor", "manifest.json")
 const currentManifest = JSON.parse(readFileSync(manifestPath, "utf8"))
 const version = process.argv[2] ?? currentManifest.version
 const temp = mkdtempSync(join(tmpdir(), "manifold-2d-vendor-"))
-const filenames = [
+const sourceFilenames = [
   "manifold-encapsulated-types.d.ts",
   "manifold-global-types.d.ts",
   "manifold.d.ts",
   "manifold.js",
   "manifold.wasm",
 ]
+const generatedFilenames = ["manifold.wasm.base64.js"]
 
 try {
   const packResult = JSON.parse(
@@ -35,11 +36,18 @@ try {
   const tarball = join(temp, packResult.filename)
   execFileSync("tar", ["-xzf", tarball, "-C", temp])
 
-  const hashes = {}
-  for (const filename of filenames) {
+  for (const filename of sourceFilenames) {
     const source = join(temp, "package", filename)
     const destination = join(root, "vendor", filename)
     copyFileSync(source, destination)
+  }
+  execFileSync(process.execPath, [
+    join(root, "scripts", "generate-embedded-wasm.mjs"),
+  ])
+
+  const hashes = {}
+  for (const filename of [...sourceFilenames, ...generatedFilenames]) {
+    const destination = join(root, "vendor", filename)
     hashes[filename] = createHash("sha256")
       .update(readFileSync(destination))
       .digest("hex")

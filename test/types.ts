@@ -13,8 +13,12 @@ const polygon: SimplePolygon = [
 ]
 const fillRule: FillRule = "Positive"
 
-setWasmUrl("/assets/manifold.wasm")
-void getManifoldModule().then(({ CrossSection }) =>
-  CrossSection.ofPolygons([polygon], fillRule),
-)
-getManifoldModuleSync()?.CrossSection.ofPolygons([polygon], fillRule)
+// Keep these calls type-checked without starting the WASM runtime when newer
+// Node versions discover this TypeScript fixture as a test file.
+if (false) {
+  setWasmUrl("/assets/manifold.wasm")
+  void getManifoldModule().then(({ CrossSection }) =>
+    CrossSection.ofPolygons([polygon], fillRule),
+  )
+  getManifoldModuleSync()?.CrossSection.ofPolygons([polygon], fillRule)
+}
