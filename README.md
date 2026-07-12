@@ -10,11 +10,10 @@ JavaScript, WebAssembly, and TypeScript declarations.
 
 ## Installation
 
-Releases are published to GitHub Packages and served through the tscircuit JS
-CDN:
+Install the package from npm:
 
 ```sh
-bun add https://jscdn.tscircuit.com/@tscircuit/manifold-2d/0.0.2.tgz
+bun add @tscircuit/manifold-2d
 ```
 
 ## Usage
