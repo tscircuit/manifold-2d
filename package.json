@@ -1,6 +1,6 @@
 {
   "name": "@tscircuit/manifold-2d",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Zero-dependency Manifold WASM runtime for 2D polygon operations",
   "license": "Apache-2.0",
   "type": "module",
@@ -24,9 +24,6 @@
     "README.md",
     "vendor"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "sideEffects": false,
   "scripts": {
     "build": "npm test",
