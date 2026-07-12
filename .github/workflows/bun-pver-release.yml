@@ -27,6 +27,15 @@ jobs:
       - run: npm install -g pver
       - run: bun install --frozen-lockfile
       - run: bun run build
+      - name: Publish current version if it is missing from npm
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if ! npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version > /dev/null 2>&1; then
+            npm publish --access public
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: pver release --no-push-main
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
