@@ -21,21 +21,15 @@ const decodeEmbeddedWasm = () => {
 }
 
 export const instantiateManifold = async () => {
-  const isNode = Boolean(
-    globalThis.process?.versions?.node &&
-      globalThis.process?.type !== "renderer",
-  )
   const options = wasmUrl
     ? { locateFile: () => wasmUrl }
-    : isNode
-      ? undefined
-      : {
-          // Emscripten resolves a filename before consulting wasmBinary. A
-          // locateFile hook prevents its bundled `new URL(..., import.meta.url)`
-          // fallback from running when import.meta.url is unavailable.
-          locateFile: () => "manifold.wasm",
-          wasmBinary: decodeEmbeddedWasm(),
-        }
+    : {
+        // Emscripten resolves a filename before consulting wasmBinary. A
+        // locateFile hook prevents its bundled `new URL(..., import.meta.url)`
+        // fallback from running when import.meta.url is unavailable.
+        locateFile: () => "manifold.wasm",
+        wasmBinary: decodeEmbeddedWasm(),
+      }
   const module = await createManifoldModule(options)
   module.setup()
   return module

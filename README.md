@@ -35,9 +35,9 @@ const inset = outline.offset(-0.2, "Miter")
 
 The first call to `getManifoldModule()` initializes a shared WASM instance.
 After initialization, `getManifoldModuleSync()` returns that instance.
-Node loads the vendored `.wasm` file directly. Browser and worker bundles use
-the package's embedded WASM fallback, so the default API does not require an
-asset-loader configuration.
+The default API uses the package's embedded WASM in Node, browser, and worker
+bundles, so it does not require an asset-loader configuration or a separate
+`.wasm` file beside the generated bundle.
 
 To serve the WASM as a separate asset instead, point the loader at the emitted
 asset before initialization:
